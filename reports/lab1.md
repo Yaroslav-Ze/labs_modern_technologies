@@ -323,3 +323,158 @@ To https://github.com/Yaroslav-Ze/labs_modern_technologies
    5ebb9f6..eac8591  main -> main
 ```
 
+Была запрошена информация об изменениях и скачаны данные с удаленного репозитория с помощью команды `git fetch`, локальные данные не менялись, на консоль вывелось:
+
+```
+remote: Enumerating objects: 13, done.
+remote: Counting objects: 100% (13/13), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 9 (delta 3), reused 9 (delta 3), pack-reused 0 (from 0)
+Unpacking objects: 100% (9/9), 2.86 KiB | 101.00 KiB/s, done.
+From github.com:Yaroslav-Ze/labs_modern_technologies
+   5ebb9f6..f884f1e  main       -> origin/main
+```
+
+Далее была использована команда `git pull`, которая произвела слияние скачанных данных с текущей веткой, таким образом синхронизировав содержимое репозитория. 
+
+### История изменений
+
+Получена сводка последних изменений с помощью `git log`. На консоль вывелось:
+
+```
+commit 21a585edaf6d6f0223f1037303ca6017fce5cc4c (HEAD -> main)
+commit 21a585edaf6d6f0223f1037303ca6017fce5cc4c (HEAD -> main)
+Merge: 2129ad6 f884f1e
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 17:45:53 2026 +0300
+
+    Коммит скачанного с удаленного репозитория
+
+commit 2129ad6644c7c21cc61b8031a5d31f8260d188dc
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 17:43:59 2026 +0300
+
+    Коммит не клона
+
+commit f884f1e3510d536ac38c87d0e391cf0a35c60921 (origin/main, origin/HEAD)
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 17:38:20 2026 +0300
+
+    Косметические изменения отчета
+
+commit eac8591b1bb7f11690aa6a78152284e312a4a948
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 17:33:23 2026 +0300
+
+    Добавлены изменения по поводу клонирования в отчет-клон
+
+commit 5ebb9f60a58da3fff77f12046fbc07e9e90b6edd
+Merge: b5c2617 e723e1f
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 15:28:18 2026 +0300
+
+    слияние веток и разрешения конфликта в README
+
+commit e723e1fab61b6b81e61c986fdd45c922464b3e71
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 15:16:25 2026 +0300
+
+    Правки в отчете и README.md для создания конфликта в ветке lab1-1
+
+commit b5c2617d2a422ff3d8bf84b61c11b458a96f46d9
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 14:43:09 2026 +0300
+
+    изменил заголовок в main для создания конфликта
+
+commit 33d14df0a705e4875ca3aa633805ee53137ca341
+Merge: 1463410 08cf181
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 14:10:17 2026 +0300
+
+    Вернул все как было в README.md
+
+commit 21a585edaf6d6f0223f1037303ca6017fce5cc4c (HEAD -> main)
+Merge: 2129ad6 f884f1e
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 17:45:53 2026 +0300
+
+    Коммит скачанного с удаленного репозитория
+
+commit 2129ad6644c7c21cc61b8031a5d31f8260d188dc
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 17:43:59 2026 +0300
+
+    Коммит не клона
+
+commit f884f1e3510d536ac38c87d0e391cf0a35c60921 (origin/main, origin/HEAD)
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 17:38:20 2026 +0300
+
+    Косметические изменения отчета
+
+commit eac8591b1bb7f11690aa6a78152284e312a4a948
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 17:33:23 2026 +0300
+
+    Добавлены изменения по поводу клонирования в отчет-клон
+
+commit 5ebb9f60a58da3fff77f12046fbc07e9e90b6edd
+Merge: b5c2617 e723e1f
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 15:28:18 2026 +0300
+
+    слияние веток и разрешения конфликта в README
+
+commit e723e1fab61b6b81e61c986fdd45c922464b3e71
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 15:16:25 2026 +0300
+
+    Правки в отчете и README.md для создания конфликта в ветке lab1-1
+
+commit b5c2617d2a422ff3d8bf84b61c11b458a96f46d9
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 14:43:09 2026 +0300
+
+    изменил заголовок в main для создания конфликта
+
+commit 33d14df0a705e4875ca3aa633805ee53137ca341
+Merge: 1463410 08cf181
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 14:10:17 2026 +0300
+
+    Вернул все как было в README.md
+
+commit 08cf181776aa74a11e85312e4ea4b78df5965606
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 14:01:04 2026 +0300
+
+    изменил README в lab1-1
+
+commit 1463410dd9143d7c24321e072a8953a3d944dc33
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Sat Mar 14 13:59:00 2026 +0300
+
+    изменил начало README в main
+
+commit 96259e551ee701ec43fa351885068cc0f0abc530
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Fri Mar 13 23:36:14 2026 +0300
+
+    Третий коммит: коммит в ветке lab1-1
+
+commit ec670582f0002d795ee315c7e8331e063b213f5e
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Fri Mar 13 21:03:55 2026 +0300
+
+    Второй коммит, добавлены измения ТОЛЬКО в lab1.md
+
+commit 99bcd4f334ac9eb2833caa518a3aedf1bfb3e0c0
+Author: Yaroslav Zelepukhin <yarzeltan@gmail.com>
+Date:   Fri Mar 13 20:17:15 2026 +0300
+
+    Первый коммит, readme.md и пустой lab1.md
+```
+
+На этом всё.
+
