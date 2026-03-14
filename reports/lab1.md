@@ -13,6 +13,7 @@
 После команды `git --version` на консоль вывелось: `git version 2.53.0.windows.1`. 
 Далее были введены команды `git config --global user.name "Yaroslav Zelepukhin"` и `git config --global user.email "yarzeltan@gmail.com"`, где флаг `--global` определяет, что настройки будут использованы для всех проектов на компьютере. 
 С помощью `git --help` на консоль выводится список основных команд, разбитый на группы. Далее приведен список наиболее часто используемых команд и их значения, источник - Фишерман Леонид Владленович "Git. Практическое руководство. Управление и контроль версий в разработке программного обеспечения".
+
 `add` Добавляет содержимое файла в индекс
 
 `bisect` Выполняет бинарный поиск ошибки по истории фиксаций
@@ -308,4 +309,16 @@ Receiving objects: 100% (33/33), 7.90 KiB | 1.97 MiB/s, done.
 Resolving deltas: 100% (5/5), done.
 ```
 
-Последние протоколы были добавлены уже в отчет-клон. 
+Последние протоколы были добавлены уже в отчет-клон и закоммичены. Измененные данные были отправлены на удаленный репозиторий с помощью команды  `git push`, на консоль вывелось:
+
+```
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (4/4), 2.27 KiB | 1.14 MiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/Yaroslav-Ze/labs_modern_technologies
+   5ebb9f6..eac8591  main -> main
+```
