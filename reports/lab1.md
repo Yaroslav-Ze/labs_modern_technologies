@@ -129,7 +129,7 @@ Changes to be committed:
         modified:   reports/lab1.md
 ```
 
-Были внесены изменения в файл `README.md`. С помощью команды `git diff -- README.md` отследили изменения в файле. Вывод команды:
+Были внесены изменения в файл `README.md`. С помощью команды `git diff -- README.md` отследили изменения в файле, где `--` означает, что необходимо отобразить изменения только для этого файла. Вывод команды:
 
 ```
 diff --git a/README.md b/README.md
@@ -146,6 +146,47 @@ index 4d8d4de..9308a92 100644
 +
 +### Новая глава
 \ No newline at end of file
+```
+
+Был сделан второй коммит, в него вошли только изменения в файле `lab1.md`, с помощью комманды `git commit -m "Второй коммит, добавлены измения ТОЛЬКО в lab1.md"`. При этом команда `git status` все еще отображала красным файл `README.md`, так как он не был подготовлен к коммиту. Вывод команды:
+
+```
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+Была использована команда `git restore README.md`, после нее соответствующий файл откатился до последнего коммита, из него изчезла добавленная ранее строка.  
+Был удален файл `lab1.md`. После этого была использована команда  `git status`, вывод которой указал, что файл `lab1.md` был удален. Git зафиксировал отсутствие файла, который раньше был под версионным контролем.
+
+```
+On branch main
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        deleted:    reports/lab1.md
+```
+
+Далее с помощью команды `git restore reports\lab1.md` файл был восстановлен до последнего коммита. То есть, эта команда позволяет не только восстанавливать изменения, но и восстанавливать удаленные файлы из последнего коммита.
+
+### Ветвление версий
+
+После команды `git branch` на консоли вывелось: `* main`. Была создана новая ветка с помощью команды `git branch lab1-1`. Далее после команды `git checkout lab1-1` на консоли отобразилось:
+
+```
+M       reports/lab1.md
+Switched to branch 'lab1-1'
+```
+
+После очередной команды `git branch` было выведено следующее:
+
+```
+* lab1-1
+  main
 ```
 
 
