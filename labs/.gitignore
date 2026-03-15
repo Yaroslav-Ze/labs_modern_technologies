@@ -1,0 +1,7 @@
+out/
+build/
+
+*.o
+*.out
+*.obj
+*.log
