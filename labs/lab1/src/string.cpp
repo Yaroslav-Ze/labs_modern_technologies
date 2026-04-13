@@ -3,14 +3,19 @@
 
 MyString::MyString() {
     // TODO: постарайтесь не выделять лишнюю память в конструкторах по
-    //       умолчанию, да и в любых случаях, когда строка пустая
+    //       умолчанию, да и в любых случаях, когда строка пустая.
     len = 0;
-    string = new char[1];
-    string[0] = '\0';
+    string = nullptr;
+    
 }
 
 MyString::MyString(const char * str) {
     // TODO: нет проверки на nullptr, хотя в других частях она есть; добавьте ее
+    if (str == nullptr) {
+        len = 0;
+        string = nullptr;
+        return;
+    }
     int i = 0;
     len = 0;
     if (str) {

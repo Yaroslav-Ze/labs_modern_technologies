@@ -1,4 +1,4 @@
-
+#include "string.hpp"
 
 class TextWrapper {
     char *stroka; // указатель на общую строку
