@@ -1,4 +1,4 @@
-
+#include "string.hpp"
 
 class TextWrapper {
     char *stroka; // указатель на общую строку
@@ -23,6 +23,7 @@ class TextWrapper {
     void deistvo();
 
 public:
+    // TODO: не нужен ли #include?
     TextWrapper(MyString &s, int line_width);
 
     void print_wrapped();
