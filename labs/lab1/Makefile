@@ -19,8 +19,12 @@ out/test_bounding_rect.out: $(obj) tests/test_bounding_rect.cpp
 	g++ -g -o out/test_bounding_rect.out tests/test_bounding_rect.cpp $(obj) -fsanitize=address
 
 
+# TODO: нужно учесть зависимость wrap.hpp от string.hpp
 out/%.o: src/%.cpp src/%.hpp
 	g++ -g -c -o $@ $<
+
+out/wrap.o: src/wrap.cpp src/wrap.hpp src/string.hpp 
+#wrap.o зависит от string, прописано отдельно 
 
 debug: out/debug.out
 	gdb out/debug.out
