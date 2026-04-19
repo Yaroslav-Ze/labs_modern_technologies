@@ -101,6 +101,73 @@ Sun Apr 19 11:31:20 Тот Самый@WIN-DGKVRL52DT2 ~/Documents/Политех
 
 ### Кастомизация процессов
 
+В VS Code для создания своей горячей клавиши нужно открыть keybindings.json и добавить строку вида { "key": "ctrl+shift+b", "command": "workbench.action.tasks.build" }. Открыть этот файл можно через `File -> Preferences -> Keyboard Shortcuts -> Значок файла`. Можно присвоить действиям предусмотренным в VS code горячие клавиши, или же создать свое действие и присвоить ему горячую клавишу. Свои действия можно создавать через User Tasks. Так были добавлены следующие горячие клавиши:
+  - `Ctrl + Alt + D` -- make debug в текущей директории
+  - `Ctrl + Alt + L` -- make leaks в текущей директории 
+  - `Ctrl + Alt + T` -- make tests в текущей директории
+  - `Ctrl + Alt + C` -- make clean в текущей директории
 
+Содержимое tasks:
+```
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "make debug",
+            "type": "shell",
+            "command": "make debug"
+        },
+        {
+            "label": "make clean",
+            "type": "shell",
+            "command": "make clean"
+        },
+        {
+            "label": "make tests",
+            "type": "shell",
+            "command": "make tests"
+        },
+        {
+            "label": "make leaks",
+            "type": "shell",
+            "command": "make leaks"
+        }
+    ]
+}
+```
+Содержимое файла с горячими клавишами:
+```
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "ctrl+g",
+        "command": "editor.action.revealDeclaration"
+    },
+
+
+    {
+        "key": "ctrl+alt+d",
+        "command": "workbench.action.tasks.runTask",
+        "args": "make debug"
+    },
+    {
+        "key": "ctrl+alt+c",
+        "command": "workbench.action.tasks.runTask",
+        "args": "make clean"
+    },
+    {
+        "key": "ctrl+alt+t",
+        "command": "workbench.action.tasks.runTask",
+        "args": "make tests"
+    },
+    {
+        "key": "ctrl+alt+l",
+        "command": "workbench.action.tasks.runTask",
+        "args": "make leaks"
+    }
+]
+```
 
 ### Интеграция с гитом
