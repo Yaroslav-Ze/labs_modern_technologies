@@ -468,3 +468,106 @@ cmake --build . --target lib || {
 ```
 
 ### Автоматизация с помощью Github Actions
+
+В контексте CI/CD (Continuous Integration / Continuous Deployment) язык YAML служит стандартом для описания пайплайнов — автоматизированных цепочек сборки, тестирования и доставки кода.
+
+Основные конструкции YAML (остальные создаются комбинацией этих):
+
+* Скаляры — одно значение
+    ```
+    name: Иван           # строка
+    age: 25              # число
+    enabled: true        # true/false
+    empty: null          # пустота
+    date: 2024-12-25     # дата
+    ```
+
+* Списки — массив
+    ```
+    # Блочный стиль
+    fruits:
+    - apple
+    - banana
+
+    # Строчный стиль
+    fruits: [apple, banana]
+    ```
+
+* Словари — пары ключ-значение
+    ```
+    # Блочный стиль
+    person:
+    name: Alice
+    age: 30
+
+    # Строчный стиль
+    person: {name: Alice, age: 30}
+    ```
+
+* Мульти-документы — несколько YAML в одном файле
+    ```
+    ---
+    doc1: первый
+    ---
+    doc2: второй
+    ---
+    doc3: третий
+    ```
+
+[GitHub Actions](https://docs.github.com/ru/actions/get-started/quickstart) — это платформа непрерывной интеграции и непрерывной поставки (CI/CD), которая позволяет автоматизировать конвейер сборки, тестирования и развертывания. Рабочие процессы, выполняющие тесты, можно создавать всякий раз, когда вы отправляете изменения в репозиторий или развертываете объединенные запросы на вытягивание в рабочую среду.
+
+Использование Actions в публичных репозиториях всегда бесплатно. Если у пользователя есть приватный репозиторий, то 2 000 минут Github Actions даются бесплатно. Каждая дополнительная минута в зависимости от типа платформы: Linux, Windows, MacOs идет за определенную стоимость. [Подробнее...](https://docs.github.com/ru/billing/concepts/product-billing/github-actions)
+
+Workflow (рабочий процесс) в GitHub Actions — это автоматизированный процесс, описываемый в YAML-файле, который запускается при наступлении определенного события в репозитории. Он позволяет автоматически собирать, тестировать и развертывать код, обеспечивая CI/CD прямо в GitHub.
+
+Workflow состоит из jobs, а job — из отдельных steps. Workflow-файлы лежат в .github/workflows/.
+
+Основные понятия:
+  - workflow — весь пайплайн;
+  - job — отдельная задача;
+  - step — отдельный шаг внутри задачи;
+  - runner — машина, где выполняются команды;
+  - uses — использование готового action;
+  - run — запуск обычных shell-команд.
+
+На гитхаб во вкладке Actions нажато "set up a workflow yourself". Был создан следующий cmake.yml:
+
+```
+name: CMake CI
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y cmake g++
+
+      - name: Configure CMake
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+
+      - name: Build project
+        run: cmake --build build
+
+      - name: Build library
+        run: cmake --build build --target lib
+
+      - name: Run tests
+        run: |
+          cd build
+          ctest
+```
+
