@@ -123,7 +123,7 @@ $ git commit -m "Добавлен второй хук"
 > Bare repository (голый репозиторий) в Git — это репозиторий, у которого нет рабочей директории (working directory), что делает его идеальным для хранения версий проекта на сервере и взаимодействия между разработчиками.
 >
 > Голое (bare) хранилище называются так потому, что у него нет рабочего каталога. Оно содержит только файлы, которые обычно скрыты в подкаталоге .git. Другими словами, голое хранилище содержит историю изменений, но не содержит снимка какой-либо определенной версии.
-
+>
 > Голое хранилище играет роль, похожую на роль основного сервера в централизованной системе управления версиями: это дом вашего проекта. Разработчики клонируют из него проект и закачивают в него свежие официальные изменения. Как правило, оно располагается на сервере, который не делает почти ничего кроме раздачи данных. Разработка идет в клонах, поэтому домашнее хранилище может обойтись и без рабочего каталога. [Источник](http://www-cs-students.stanford.edu/~blynn/gitmagic/intl/ru/ch04.html).
 
 Был добавлен этот репозиторий в качестве удаленного с помощью команды `git remote add server ../server`. Сделан коммит, ветка запушена в удаленный репозиторий-сервер с помощью команды `git push server modern-tec-6`. Пуш удался. 
@@ -145,10 +145,287 @@ do
   echo ""
 done
 ```
+Был сделан коммит, запушен на "сервер". Html успешно был создан. Последние действия были повторены еще раз, при перезагрузки html файла изменения отобразились. 
 
 ### Сборка с помощью CMake
 
-Воу начинаем.
+Из терминала wsl был установлен cmake с помощью команды `sudo apt install cmake`. Cmake доступен. 
+
+> CMake — кроcсплатформенная утилита для автоматической сборки программы из исходного кода. 
+> 
+> Для того что бы собрать проект средствами CMake, необходимо в корне дерева исходников разместить файл CMakeLists.txt, хранящий правила и цели сборки. 
+>
+> Файл CMakeLists.txt служит скриптом (рецептом, сценарием) сборки проекта. Обычно один такой файл собирает все исходники в своём каталоге и в подкаталогах, при этом подкаталоги могут содержать, а могут не содержать дочерние файлы CMakeLists.txt. С точки зрения IDE, таких как CLion или Visual Studio, файл CMakeLists.txt также служит проектом, с которым работает программист внутри IDE.
+>
+> В cmake есть *цель* (target) - компонент, который следует собрать. Компонент может быть исполняемым файлом, так и статической либо динамической библиотекой.
+>
+> В cmake есть *проект* (project) - это набор компонентов, по смыслу похожий на Solution в Visual Studio.
+>
+> В cmake есть *флаги* (flags) - это аргументы командной строки для компилятора, компоновщика и других утилит, вызываемых при сборке.
+>
+> В cmake есть переменные, и в процессе интерпретации файла CMakeLists.txt система сборки cmake вычисляет ряд встроенных переменных для каждой цели, тем самым получая флаги. Затем cmake создаёт вторичный скрипт сборки, который будет напрямую вызывать компилятор, компоновщик и другие утилиты с вычисленными флагами. 
+>
+> [Источник](https://ps-group.github.io/cxx/cmake_cheatsheet#wow0).
+
+* `cmake_minimum_required` — задаёт минимальную версию CMake
+```
+cmake_minimum_required(VERSION 3.10)
+```
+
+* `project` — объявляет проект
+```
+project(MyProject)
+```
+
+* `add_executable` — создаёт исполняемый файл
+```
+add_executable(app main.cpp)
+```
+
+* `add_library` — создаёт библиотеку
+```
+add_library(lib file.cpp)
+```
+
+* `target_link_libraries` — связывает цель с библиотеками
+```
+target_link_libraries(app lib)
+```
+
+* `target_include_directories` — добавляет путь к заголовочным файлам
+```
+target_include_directories(lib PUBLIC include)
+```
+
+* `add_subdirectory` — подключает подпроект (другую папку с CMakeLists.txt)
+```
+add_subdirectory(tests)
+```
+
+* `set` — создаёт переменную
+```
+set(SOURCES main.cpp file.cpp)
+```
+
+* `message` — выводит сообщение при конфигурации
+```
+message("Configuring project")
+```
+
+* `include_directories` — добавляет include-пути
+```
+include_directories(include)
+```
+
+* `link_directories` — добавляет путь к библиотекам
+```
+link_directories(lib)
+```
+
+* `add_definitions` — добавляет макросы компиляции
+```
+add_definitions(-DDEBUG)
+```
+
+* `target_compile_definitions` — добавляет макросы для конкретной цели
+```
+target_compile_definitions(app PRIVATE DEBUG)
+```
+
+* `target_compile_options` — задаёт флаги компилятора
+```
+target_compile_options(app PRIVATE -Wall)
+```
+
+* `file` — работает с файлами (поиск, копирование и др.)
+```
+file(GLOB SRC "*.cpp")
+```
+
+* `enable_testing` — включает поддержку тестов
+```
+enable_testing()
+```
+
+* `add_test` — добавляет тест
+```
+add_test(NAME test1 COMMAND test_app)
+```
+
+* `find_package` — ищет внешние библиотеки
+```
+find_package(Threads REQUIRED)
+```
+
+* `if` — условие
+```
+if(WIN32)
+  message("Windows")
+endif()
+```
+
+* `foreach` — цикл
+```
+foreach(file ${SOURCES})
+  message(${file})
+endforeach()
+```
+
+Make-файл лабораторной 2 по сд был переписан на Cmake.
+
+<details>
+<summary>Исходник:</summary>
+
+```
+obj = out/string.o out/base.o
+
+out/debug.out: $(obj) src/lab2.cpp
+	g++ -g -o out/debug.out src/lab2.cpp $(obj)
+
+out/leaks.out: $(obj) src/lab2.cpp
+	g++ -g -o out/leaks.out src/lab2.cpp $(obj) -fsanitize=address
+
+out/%.o: src/%.cpp src/%.hpp
+	g++ -g -c -o $@ $<
+
+debug: out/debug.out
+	gdb out/debug.out
+
+leaks: out/leaks.out
+	./out/leaks.out
+
+out/test_%.out: tests/test_%.cpp $(obj)
+	g++ -g -o $@ $< $(obj) -fsanitize=address
+
+test_%: out/test_%.out
+	./$<
+
+tests: \
+	test_BF \
+	test_B32 \
+	test_RLE \
+	test_B32_2 \
+	test_RLE_2 \
+	test_COMP1 \
+	test_COMP2
+
+.PHONY: clean
+
+clean:
+	-rm -f out/*.o out/debug.out out/leaks.out out/test_*.out *.bin
+```
+</details>
+
+<details>
+<summary>Получившийся корневой CMakeLists.txt</summary>
+
+```
+cmake_minimum_required(VERSION 3.10)
+
+project(lab2)
+
+add_library(lib src/string.cpp src/base.cpp)
+
+target_include_directories(lib PUBLIC src)
+# где искать заголовочные файлы
+
+add_executable(debug_out src/lab2.cpp)
+
+target_link_libraries(debug_out lib)
+
+target_compile_options(debug_out PRIVATE -g)
+
+add_executable(leaks_out src/lab2.cpp)
+
+target_link_libraries(leaks_out lib)
+
+target_compile_options(leaks_out PRIVATE -g -fsanitize=address)
+target_link_options(leaks_out PRIVATE -fsanitize=address)
+
+enable_testing()
+add_subdirectory(tests)
+```
+</details>
+
+<details>
+<summary>Получившийся для тестов CMakeLists.txt</summary>
+
+```
+set(TESTS BF B32 RLE B32_2 RLE_2 COMP1 COMP2)
+
+foreach(TEST_NAME ${TESTS})
+    add_executable(test_${TEST_NAME} test_${TEST_NAME}.cpp)
+
+    target_link_libraries(test_${TEST_NAME} lab2_lib)
+
+    add_test(NAME test_${TEST_NAME} COMMAND test_${TEST_NAME})
+endforeach()
+```
+</details>
+
+Команда `cmake ..` выполнила конфигурацию проекта, прочитав файл CMakeLists.txt из родительской директории и сгенерировав файлы сборки (например, Makefile) в текущей папке. Далее, команда `cmake --build .` выполнила сборку проекта на основе ранее сгенерированных файлов сборки. 
+
+<details>
+<summary>Вывод консоли:</summary>
+
+```
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/yawr/Projects/lab2/lab2/out
+[ 14%] Built target lib
+[ 23%] Built target debug_out
+[ 33%] Built target leaks_out
+[ 38%] Building CXX object tests/CMakeFiles/test_BF.dir/test_BF.cpp.o
+[ 42%] Linking CXX executable test_BF
+[ 42%] Built target test_BF
+[ 47%] Building CXX object tests/CMakeFiles/test_B32.dir/test_B32.cpp.o
+[ 52%] Linking CXX executable test_B32
+[ 52%] Built target test_B32
+[ 57%] Building CXX object tests/CMakeFiles/test_RLE.dir/test_RLE.cpp.o
+[ 61%] Linking CXX executable test_RLE
+[ 61%] Built target test_RLE
+[ 66%] Building CXX object tests/CMakeFiles/test_B32_2.dir/test_B32_2.cpp.o
+[ 71%] Linking CXX executable test_B32_2
+[ 71%] Built target test_B32_2
+[ 76%] Building CXX object tests/CMakeFiles/test_RLE_2.dir/test_RLE_2.cpp.o
+[ 80%] Linking CXX executable test_RLE_2
+[ 80%] Built target test_RLE_2
+[ 85%] Building CXX object tests/CMakeFiles/test_COMP1.dir/test_COMP1.cpp.o
+[ 90%] Linking CXX executable test_COMP1
+[ 90%] Built target test_COMP1
+[ 95%] Building CXX object tests/CMakeFiles/test_COMP2.dir/test_COMP2.cpp.o
+[100%] Linking CXX executable test_COMP2
+[100%] Built target test_COMP2
+```
+</details>
+
+Теперь, в собранном проекте, можно, например, запустить тесты с помощью `ctest`
+
+<details>
+<summary>Вывод консоли после тестов:</summary>
+
+```
+Test project /home/yawr/Projects/lab2/lab2/out
+    Start 1: test_BF
+1/7 Test #1: test_BF ..........................   Passed    0.00 sec
+    Start 2: test_B32
+2/7 Test #2: test_B32 .........................   Passed    0.01 sec
+    Start 3: test_RLE
+3/7 Test #3: test_RLE .........................   Passed    0.01 sec
+    Start 4: test_B32_2
+4/7 Test #4: test_B32_2 .......................   Passed    0.01 sec
+    Start 5: test_RLE_2
+5/7 Test #5: test_RLE_2 .......................   Passed    0.01 sec
+    Start 6: test_COMP1
+6/7 Test #6: test_COMP1 .......................   Passed    0.02 sec
+    Start 7: test_COMP2
+7/7 Test #7: test_COMP2 .......................   Passed    0.02 sec
+
+100% tests passed, 0 tests failed out of 7
+
+Total Test time (real) =   0.08 sec
+```
+</details>
 
 ### Автоматизация задач CMake в git
 
