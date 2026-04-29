@@ -139,7 +139,7 @@ echo "post-receive запущен"
 while read oldrev newrev ref
 # пока Git передаёт строки об обновлениях, читать их и обрабатывать
 do
-  git show "$newrev:lab6.md" | pandoc -o lab6.html
+  git show "$newrev:reports/lab6.md" | pandoc -o lab6.html
 
   echo "Создан html"
   echo ""
