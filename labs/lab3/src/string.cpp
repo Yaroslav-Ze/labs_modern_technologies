@@ -88,7 +88,7 @@ char MyString::get(int i) {
     return '\0';
 }
 
-int MyString::get_len() {
+int MyString::get_len() const {
     
     return len;
 }

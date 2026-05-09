@@ -16,7 +16,7 @@ public:
     ~MyString(); 
 
     char get(int i);
-    int get_len();
+    int get_len() const;
     char* get_str() const;
     void set(int i, char c);
     void set_new_string(const char *str);
