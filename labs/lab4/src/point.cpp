@@ -110,9 +110,39 @@ Node::~Node()
 
 // Листок -----------------------------------
 
+void List::copy(const List& other)
+{
+    Node* cur = other.Head.pNext;
+
+    while (cur != &other.Tail)
+    {
+        push_back(cur->m_Data);
+        cur = cur->pNext;
+    }
+}
+
 List::List() : Head(), Tail(), m_size(0) {
     Head.pNext = &Tail;
     Tail.pPrev = &Head;
+}
+
+List::List(const List& other) : Head(), Tail(), m_size(0)
+{
+    Head.pNext = &Tail;
+    Tail.pPrev = &Head;
+
+    copy(other);
+}
+
+List& List::operator=(const List& other)
+{
+    if (this != &other)
+    {
+        clear();
+        copy(other);
+    }
+
+    return *this;
 }
 
 List::~List()
@@ -215,31 +245,86 @@ size_t List::remove_all(const Circle& c) {
 }
 
 
+Node* List::split(Node* first)
+{
+    Node* a = first;
+    Node* b = first->pNext;
+
+    while (b != nullptr && b->pNext != nullptr)
+    {
+        a = a->pNext;
+        b = b->pNext->pNext;
+    }
+
+    Node* second = a->pNext;
+    a->pNext = nullptr;
+
+    if (second != nullptr)
+        second->pPrev = nullptr;
+
+    return second;
+}
+
+Node* List::sliyan(Node* a, Node* b)
+{
+    if (a == nullptr) {
+        return b;
+    }
+    if (b == nullptr) {
+        return a;
+    }
+    if (a->m_Data.get_radius() <= b->m_Data.get_radius())
+    {
+        a->pNext = sliyan(a->pNext, b);
+        if (a->pNext != nullptr) {
+            a->pNext->pPrev = a;
+        }
+        a->pPrev = nullptr;
+        return a;
+    }
+    else
+    {
+        b->pNext = sliyan(a, b->pNext);
+        if (b->pNext != nullptr) {
+            b->pNext->pPrev = b;
+        }
+        b->pPrev = nullptr;
+        return b;
+    }
+}
+
+Node* List::sortsl(Node* first)
+{
+    if (first == nullptr || first->pNext == nullptr) {
+        return first;
+    }
+    Node* second = split(first);
+    first = sortsl(first);
+    second = sortsl(second);
+    return sliyan(first, second);
+}
+
+
+
 void List::sort_rost()
 {
     if (m_size <= 1) {
         return;
     }
+    Node* first = Head.pNext;
+    Node* last = Tail.pPrev;
+    first->pPrev = nullptr;
+    last->pNext = nullptr;
+    Node* sorted = sortsl(first);
 
-    for (Node* i = Head.pNext; i != &Tail; i = i->pNext)
-    {
-        Node* minNode = i;
-
-        for (Node* j = i->pNext; j != &Tail; j = j->pNext)
-        {
-            if (j->m_Data.get_radius() < minNode->m_Data.get_radius())
-            {
-                minNode = j;
-            }
-        }
-
-        if (minNode != i)
-        {
-            Circle sth = i->m_Data;
-            i->m_Data = minNode->m_Data;
-            minNode->m_Data = sth;
-        }
+    Head.pNext = sorted;
+    sorted->pPrev = &Head;
+    Node* cur = sorted;
+    while (cur->pNext != nullptr) {
+        cur = cur->pNext;
     }
+    cur->pNext = &Tail;
+    Tail.pPrev = cur;
 }
 
 std::ostream& operator<<(std::ostream& os, const Circle& c)
@@ -251,15 +336,29 @@ std::ostream& operator<<(std::ostream& os, const Circle& c)
     return os;
 }
 
+void List::each(void (*func)(const Circle&)) const
+{
+    const Node* cur = Head.pNext;
+
+    while (cur != &Tail) {
+        func(cur->m_Data);
+        cur = cur->pNext;
+    }
+}
+
 void List::print(std::ostream& os) const
 {
     const Node* cur = Head.pNext;
 
-    while (cur != &Tail)
-    {
+    while (cur != &Tail) {
         os << cur->m_Data << '\n';
         cur = cur->pNext;
     }
+}
+
+void print(const Circle& c)
+{
+    std::cout << c << '\n';
 }
 
 std::ostream& operator<<(std::ostream& os, const List& list)

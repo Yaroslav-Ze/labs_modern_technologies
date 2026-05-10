@@ -76,9 +76,14 @@ class List
 	Node Head;	// фиктивный элемент, который является признаком начала списка
 	Node Tail;	// фиктивный элемент, который является признаком конца списка
 	size_t m_size;	//количество элементов
+    void copy(const List& other);
 public:
 	List(); //сформировать Head, Tail и m_size }
+    List(const List& other);
+    List& operator=(const List& other);
+
     ~List();
+
 
     void clear();
     size_t size() const;
@@ -94,12 +99,17 @@ public:
 
     size_t remove_all(const Circle& c);
 
+    Node* split(Node* first);
+    Node* sliyan(Node* a, Node* b);
+    Node* sortsl(Node* first);
     void sort_rost();
 
     void print(std::ostream& os) const;
 
     bool chtenie_clear(const char* filename);
     bool chtenie_without_clear(const char* filename);
+
+    void each(void (*func)(const Circle&)) const;
 	
 };
 
@@ -107,6 +117,8 @@ std::ostream& operator<<(std::ostream& os, const Circle& c);
 std::ostream& operator<<(std::ostream& os, const List& list);
 
 void v_file(const List& list, const char* filename);
+
+void print(const Circle& c);
 
 std::istream& operator>>(std::istream& is, Circle& c);
 
