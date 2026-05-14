@@ -148,7 +148,7 @@ netsh advfirewall firewall delete rule name="SSH_for_Partner"
 
 Подключиться к ВМ напарника `ssh имя_на_вм_напарника@его.ай.пи.шник -p 2222`. 
 
-Склонировать ПАБЛИК репозиторий `git clone https://github.com/аккаунт/название_репозитория.git`. Если не паблик: нужна аутентификация - временный GitHub токен.
+Склонировать ПАБЛИК репозиторий `git clone https://github.com/аккаунт/название_репозитория.git` (`git clone https://github.com/Yaroslav-Ze/labs_modern_technologies.git`). Если не паблик: нужна аутентификация - временный GitHub токен.
   1. Зайти на `GitHub -> Settings -> Developer settings -> Personal access tokens -> Tokens (classic)`
   2. Нажать «Generate new token (classic)»
   3. Настроить токен:
@@ -185,10 +185,12 @@ git clone git@github.com:АККАУНТ/РЕПОЗИТОРИЙ.git
 Пароль запрошен не будет и все склонируется. 
 
 Далее по классике:
-  - `cd имя/лабы` -- перейти в папку с лабой.
-  - `mkdir build && cd build` -- Создать build-папку.
-  - `cmake ..`
+  - `cd имя/лабы` -- перейти в папку с лабой. (`cd labs_modern_technologies`)
+  - `mkdir build && cd build` -- Создать build-папку. (`mkdir build`)
+  - `cmake ..` 
   - `make имя-исполняемого`
   - `ctest` -- пройти тесты.
 
+(или через make)
 
+Убрать улики: `rm -rf labs_modern_technologies/`.
